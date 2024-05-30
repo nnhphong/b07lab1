@@ -43,7 +43,7 @@ public class Driver {
             System.out.println("1 is not a root of mul");
 
         mul.saveToFile("result.txt");
-        File poly3 = new File("resault.txt");
+        File poly3 = new File("result.txt");
         Polynomial p3 = new Polynomial(poly3);
         System.out.println("p3(0.1) = " + p3.evaluate(0.1));
         System.out.println("p3(3) = " + p3.evaluate(3));
@@ -53,8 +53,47 @@ public class Driver {
             System.out.println("1 is not a root of mul");
     }
 
+    public static void test_edgePolynomial() throws IOException {
+        // double [] coef = { 0, 1, 0, -4, 0, 5 };
+        // int [] expo = { 1, 3, 5, 4, 6, 9 };
+        // Polynomial p1 = new Polynomial(coef, expo);
+        // p1.saveToFile("result.txt");
+
+        double [] coef1 = { 0, 0, 0, 0, 0, 0 };
+        int [] expo1 = { 1, 3, 5, 4, 6, 9 };
+        Polynomial p2 = new Polynomial(coef1, expo1);
+        p2.saveToFile("result.txt");
+
+        
+    }
+
+    public static void test_sum() {
+        double [] c1 = {0.1};
+        double [] c2 = {0.2};
+        double [] c3 = {-0.3};
+        int [] e1 = {0};
+
+        Polynomial p1 = new Polynomial(c1, e1);
+        Polynomial p2 = new Polynomial(c2, e1);
+        Polynomial p3 = new Polynomial(c3, e1);
+
+        Polynomial p4 = p1.add(p2);
+
+        Polynomial p5 = p4.add(p3);
+
+        if (p5.hasRoot(69)) {
+            System.out.println("balls");
+        } else {
+            System.out.println("sac");
+        }
+
+        System.out.println(p5.evaluate(69));
+    }
+
     public static void main(String [] args) throws IOException {
         test_normalPolynomial();
         test_filePolynomial();
+        test_edgePolynomial();
+        // test_sum();
     }
 }

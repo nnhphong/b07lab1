@@ -35,7 +35,15 @@ class Polynomial {
         for (int i = start_index; i < terms.length; i++) {
             int j = i - start_index;
             String [] e = terms[i].split("x");
-            coef[j] = Double.parseDouble(e[0]);
+
+            // 1x^1 case
+            if (e.length == 0) {
+                coef[j] = expo[j] = 1;
+                continue;
+            }   
+            
+            if (e[0].equals("")) coef[j] = 1;
+            else coef[j] = Double.parseDouble(e[0]);
             if (e.length == 1) {
                 // constant or ^1 exponent
                 if (terms[i].charAt(terms[i].length() - 1) == 'x') {
@@ -47,6 +55,7 @@ class Polynomial {
         }
 
         // change sign for the coeficient
+
         if (equation.charAt(0) == '-') {
             coef[0] *= -1;
         }
@@ -148,16 +157,22 @@ class Polynomial {
         return res;
     }
 
+    
     public boolean hasRoot(double x_val) {
-        return (evaluate(x_val) == 0);
+        double eps = 1e-9;
+        return (Math.abs(evaluate(x_val)) < eps);
     }
 
     public String compressPolynomial(Polynomial x) {
         String res = "";
+        boolean leadingTerm = true;
         for (int i = 0; i < x.coef.length; i++) {
-            if (i > 0 && coef[i] > 0) res += "+";
+            if (coef[i] == 0) continue;
+            if (!leadingTerm && coef[i] > 0) res += "+";
             res += Double.toString(coef[i]) + "x" + Integer.toString(expo[i]);
+            leadingTerm = false;
         }
+        if (res == "") res = "0";
         return res;
     }
 
