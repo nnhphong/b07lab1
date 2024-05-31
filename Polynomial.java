@@ -26,8 +26,9 @@ class Polynomial {
         String equation = scanner.nextLine();
         String [] terms = equation.split("[+-]");
 
+        // skip the weird behavior of split(), when it gives empty string result
         int start_index = 0;
-        if (terms[0] == "") start_index = 1;
+        if (terms[0].equals("")) start_index = 1;
 
         coef = new double[terms.length - start_index];   
 		expo = new int[terms.length - start_index];	
@@ -36,27 +37,25 @@ class Polynomial {
             int j = i - start_index;
             String [] e = terms[i].split("x");
 
-            // 1x^1 case
+            // exponent 1 & coefficient 1
             if (e.length == 0) {
                 coef[j] = expo[j] = 1;
                 continue;
             }   
+
+            // case that it has 1 coefficient
             if (e[0].equals("")) coef[j] = 1;
             else coef[j] = Double.parseDouble(e[0]);
 
             if (e.length == 1) {
-                // constant or ^1 exponent
-                System.out.println(terms[i]);
-                if (terms[i].charAt(terms[i].length() - 1) == 'x') {
-                    expo[j] = 1;
-                }
+                // constant or exponent 1 case
+                if (terms[i].charAt(terms[i].length() - 1) == 'x') expo[j] = 1;
                 else expo[j] = 0;
             }
             else expo[j] = Integer.parseInt(e[1]);
         }
 
         // change sign for the coeficient
-
         if (equation.charAt(0) == '-') {
             coef[0] *= -1;
         }
@@ -158,7 +157,6 @@ class Polynomial {
         return res;
     }
 
-    
     public boolean hasRoot(double x_val) {
         double eps = 1e-9;
         return (Math.abs(evaluate(x_val)) < eps);
@@ -175,7 +173,7 @@ class Polynomial {
             else res += Double.toString(coef[i]) + "x" + Integer.toString(expo[i]);
             leadingTerm = false;
         }
-        if (res == "") res = "0";
+        if (res.equals("")) res = "0";
         return res;
     }
 
