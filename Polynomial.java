@@ -41,11 +41,12 @@ class Polynomial {
                 coef[j] = expo[j] = 1;
                 continue;
             }   
-            
             if (e[0].equals("")) coef[j] = 1;
             else coef[j] = Double.parseDouble(e[0]);
+
             if (e.length == 1) {
                 // constant or ^1 exponent
+                System.out.println(terms[i]);
                 if (terms[i].charAt(terms[i].length() - 1) == 'x') {
                     expo[j] = 1;
                 }
@@ -169,7 +170,9 @@ class Polynomial {
         for (int i = 0; i < x.coef.length; i++) {
             if (coef[i] == 0) continue;
             if (!leadingTerm && coef[i] > 0) res += "+";
-            res += Double.toString(coef[i]) + "x" + Integer.toString(expo[i]);
+            
+            if (expo[i] == 0) res += Double.toString(coef[i]);
+            else res += Double.toString(coef[i]) + "x" + Integer.toString(expo[i]);
             leadingTerm = false;
         }
         if (res == "") res = "0";
